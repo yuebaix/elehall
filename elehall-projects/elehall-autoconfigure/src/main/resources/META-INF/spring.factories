@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.geercode.elehall.autoconfigure.web.common.ResponseCodeAutoConfiguration

@@ -33,5 +33,9 @@
             <groupId>com.geercode.elehall</groupId>
             <artifactId>elehall-spring-boot-starter</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.geercode.elehall</groupId>
+            <artifactId>web-common-spring-boot-starter</artifactId>
+        </dependency>
     </dependencies>
 </project>

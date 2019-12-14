@@ -27,12 +27,23 @@
             </dependency>
             <dependency>
                 <groupId>com.geercode.elehall</groupId>
+                <artifactId>web-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>com.geercode.elehall</groupId>
                 <artifactId>elehall-spring-boot-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.geercode.elehall</groupId>
+                <artifactId>web-common-spring-boot-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
-
     <build>
         <plugins>
             <!--flatten pom-->
