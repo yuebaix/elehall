@@ -3,19 +3,14 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>build</artifactId>
+        <artifactId>elehall-projects</artifactId>
         <groupId>com.geercode.elehall</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.geercode.elehall</groupId>
-    <artifactId>elehall-projects</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>elehall-parent</module>
-        <module>elehall-autoconfigure</module>
-        <module>web-common</module>
-        <module>common</module>
-    </modules>
+    <artifactId>common</artifactId>
+
+
 </project>

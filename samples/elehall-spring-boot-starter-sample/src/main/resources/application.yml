@@ -1,0 +1,7 @@
+geercode:
+  elehall:
+    web:
+      common:
+        responsecode:
+          enable: true
+          svc-mod-code: '013'
