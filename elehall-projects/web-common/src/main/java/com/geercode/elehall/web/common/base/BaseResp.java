@@ -44,6 +44,13 @@ public class BaseResp<T> {
     }
 
     /**
+     * <p>description : 失败(返回信息)</p>
+     */
+    public static BaseResp fail(String msg) {
+        return BaseResp.custom(BaseCode.FAIL.getCode(), BaseCode.FAIL.getMsg() + ":" + msg, null);
+    }
+
+    /**
      * <p>description : 失败(返回数据)</p>
      */
     public static <T> BaseResp<T> fail(T data) {
