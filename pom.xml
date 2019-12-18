@@ -7,7 +7,7 @@
     <groupId>com.geercode.elehall</groupId>
     <artifactId>build</artifactId>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.0.1</version>
 
     <name>elehall</name>
     <description>
@@ -31,6 +31,7 @@
     <developers>
         <developer>
             <name>jerryniu</name>
+            <email>huifumanlove@hotmail.com</email>
             <roles>
                 <role>Project Creed Master</role>
                 <role>Senior Developer</role>
