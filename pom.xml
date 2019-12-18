@@ -7,7 +7,7 @@
     <groupId>com.geercode.elehall</groupId>
     <artifactId>build</artifactId>
     <packaging>pom</packaging>
-    <version>0.0.1</version>
+    <version>0.0.2-SNAPSHOT</version>
 
     <name>elehall</name>
     <description>

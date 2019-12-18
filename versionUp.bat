@@ -27,7 +27,7 @@ rem 确认可以编译通过
 echo ***************************************************************************************
 echo make sure compile is working
 echo ***************************************************************************************
-call mvn clean install -Pall -DskipTests
+call mvn clean install -B -e -U -V -Pall -DskipTests
 if "%errorlevel%"=="1" goto versionUpfailed
 goto versionUpsuccess
 
