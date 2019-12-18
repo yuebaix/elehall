@@ -13,6 +13,9 @@
     <groupId>com.geercode.elehall</groupId>
     <artifactId>web-common</artifactId>
 
+    <name>web-common</name>
+    <description>elehall's web-common</description>
+
     <dependencies>
         <dependency>
             <groupId>com.geercode.elehall</groupId>

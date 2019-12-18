@@ -13,6 +13,9 @@
     <artifactId>elehall-dependencies</artifactId>
     <packaging>pom</packaging>
 
+    <name>elehall-dependencies</name>
+    <description>elehall's dependency management</description>
+
     <properties>
         <java.version>1.8</java.version>
         <maven.version>3.3.9</maven.version>

@@ -13,6 +13,9 @@
     <groupId>com.geercode.elehall</groupId>
     <artifactId>elehall-autoconfigure</artifactId>
 
+    <name>elehall-autoconfigure</name>
+    <description>elehall's autoconfigure</description>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

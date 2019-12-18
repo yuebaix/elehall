@@ -13,6 +13,9 @@
     <artifactId>elehall-bom</artifactId>
     <packaging>pom</packaging>
 
+    <name>elehall-bom</name>
+    <description>elehall's projects and starters list</description>
+
     <dependencyManagement>
         <dependencies>
             <dependency>

@@ -14,6 +14,9 @@
     <artifactId>elehall-parent</artifactId>
     <packaging>pom</packaging>
 
+    <name>elehall-parent</name>
+    <description>elehall's projects' parent</description>
+
     <build>
         <plugins>
             <plugin>
@@ -37,6 +40,13 @@
                                 <distributionManagement>remove</distributionManagement>
                             </pomElements>
                         </configuration>
+                    </execution>
+                    <execution>
+                        <id>flatten-clean</id>
+                        <phase>clean</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>

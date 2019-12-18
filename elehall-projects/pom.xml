@@ -13,6 +13,10 @@
     <groupId>com.geercode.elehall</groupId>
     <artifactId>elehall-projects</artifactId>
     <packaging>pom</packaging>
+
+    <name>elehall-projects</name>
+    <description>elehall's projects' build</description>
+
     <modules>
         <module>elehall-parent</module>
         <module>elehall-autoconfigure</module>

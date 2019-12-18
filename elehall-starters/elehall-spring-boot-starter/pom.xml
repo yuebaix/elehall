@@ -12,6 +12,9 @@
     <groupId>com.geercode.elehall</groupId>
     <artifactId>elehall-spring-boot-starter</artifactId>
 
+    <name>elehall-spring-boot-starter</name>
+    <description>elehall's basic starter</description>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

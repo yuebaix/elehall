@@ -13,5 +13,7 @@
     <groupId>com.geercode.elehall</groupId>
     <artifactId>common</artifactId>
 
+    <name>common</name>
+    <description>elehall's common</description>
 
 </project>

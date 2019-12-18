@@ -12,9 +12,11 @@
     <groupId>com.geercode.elehall</groupId>
     <artifactId>samples</artifactId>
     <packaging>pom</packaging>
+
+    <name>samples</name>
+    <description>elehall's samples' build</description>
+
     <modules>
         <module>elehall-spring-boot-starter-sample</module>
     </modules>
-
-
 </project>

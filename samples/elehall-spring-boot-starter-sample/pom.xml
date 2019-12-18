@@ -12,6 +12,9 @@
     <groupId>com.geercode.elehall</groupId>
     <artifactId>elehall-spring-boot-starter-sample</artifactId>
 
+    <name>elehall-spring-boot-starter-sample</name>
+    <description>elehall's starter sample</description>
+
     <dependencyManagement>
         <dependencies>
             <dependency>

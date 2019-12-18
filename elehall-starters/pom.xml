@@ -13,10 +13,12 @@
     <groupId>com.geercode.elehall</groupId>
     <artifactId>elehall-starters</artifactId>
     <packaging>pom</packaging>
+
+    <name>elehall-starters</name>
+    <description>elehall's starters' build</description>
+
     <modules>
         <module>elehall-spring-boot-starter</module>
         <module>web-common-spring-boot-starter</module>
     </modules>
-
-
 </project>
