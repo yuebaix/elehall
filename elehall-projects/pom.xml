@@ -25,5 +25,6 @@
         <module>web-common</module>
         <module>spring-support</module>
         <module>elehall-archetype</module>
+        <module>elehall-codegen</module>
     </modules>
 </project>

@@ -13,6 +13,6 @@
     <groupId>com.geercode.elehall</groupId>
     <artifactId>elehall-archetype</artifactId>
 
-    <name>archetype</name>
+    <name>elehall-archetype</name>
     <description>elehall's archetype</description>
 </project>
