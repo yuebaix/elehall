@@ -64,7 +64,8 @@
                 <repository>
                     <id>central</id>
                     <name>central</name>
-                    <url>https://repo.maven.apache.org/maven2</url>
+                    <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+                    <!--<url>https://repo.maven.apache.org/maven2</url>-->
                     <snapshots>
                         <enabled>true</enabled>
                         <updatePolicy>always</updatePolicy>
@@ -76,7 +77,8 @@
                 <pluginRepository>
                     <id>central</id>
                     <name>central</name>
-                    <url>https://repo.maven.apache.org/maven2</url>
+                    <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+                    <!--<url>https://repo.maven.apache.org/maven2</url>-->
                 </pluginRepository>
             </pluginRepositories>
         </profile>

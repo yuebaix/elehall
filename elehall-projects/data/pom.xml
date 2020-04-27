@@ -11,10 +11,10 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.geercode.elehall</groupId>
-    <artifactId>common</artifactId>
+    <artifactId>data</artifactId>
 
-    <name>common</name>
-    <description>elehall's common</description>
+    <name>data</name>
+    <description>elehall's data</description>
 
     <dependencies>
         <dependency>
@@ -22,16 +22,18 @@
             <artifactId>lombok</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
+            <groupId>com.geercode.elehall</groupId>
+            <artifactId>common</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-collections4</artifactId>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-mongodb</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-all</artifactId>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

@@ -20,7 +20,10 @@
     <modules>
         <module>elehall-parent</module>
         <module>elehall-autoconfigure</module>
-        <module>web-common</module>
         <module>common</module>
+        <module>data</module>
+        <module>web-common</module>
+        <module>spring-support</module>
+        <module>elehall-archetype</module>
     </modules>
 </project>

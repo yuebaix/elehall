@@ -35,10 +35,14 @@
             </dependency>
             <dependency>
                 <groupId>com.geercode.elehall</groupId>
+                <artifactId>data</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.geercode.elehall</groupId>
                 <artifactId>web-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
 
             <dependency>
                 <groupId>com.geercode.elehall</groupId>
