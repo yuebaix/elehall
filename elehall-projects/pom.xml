@@ -21,6 +21,7 @@
         <module>elehall-parent</module>
         <module>elehall-autoconfigure</module>
         <module>common</module>
+        <module>core</module>
         <module>data</module>
         <module>web-common</module>
         <module>spring-support</module>
