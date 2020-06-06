@@ -68,6 +68,16 @@ public class OrmGeneratorImpl implements OrmGenerator {
                     .setOutputPath(basicCodePath + File.separator + "entity")
                     .setOutputNamePattern(optCfg.getEntityPattern());
             outputCfgList.add(entityOutputCfg);
+        } else if (CodegenConstant.CODE_TYPE_MYBATISPLUS.equalsIgnoreCase(codeType)) {
+            String basicCodePath = pkgCfg.getRootArtifactDir()
+                    + "src" + File.separator
+                    + "main" + File.separator
+                    + "java" + File.separator
+                    + pkgCfg.getBasePackage().replace(CodegenConstant.DOT, File.separator);
+            OutputCfg entityOutputCfg = new OutputCfg().setTemplatePath("/freemarker/mybatisplus/entity")
+                    .setOutputPath(basicCodePath + File.separator + "entity")
+                    .setOutputNamePattern(optCfg.getEntityPattern());
+            outputCfgList.add(entityOutputCfg);
         } else {
             throw new ElehallCodegenException("设定的生成代码类型没有得到支持: " + codeType);
         }
