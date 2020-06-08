@@ -235,53 +235,28 @@ public class OrmConfigBuilder {
                 .setEntityTemplatePath(entityTemplatePath).setDaoTemplatePath(daoTemplatePath).setServiceTemplatePath(serviceTemplatePath).setServiceImplTemplatePath(serviceImplTemplatePath).setControllerTemplatePath(controllerTemplatePath);
 
         //OutputCfg
-        if (CodegenConstant.CODE_TYPE_JPA.equalsIgnoreCase(codeType)) {
-            String basicCodePath = pkgCfg.getRootArtifactDir()
-                    + "src" + File.separator
-                    + "main" + File.separator
-                    + "java" + File.separator
-                    + pkgCfg.getBasePackage().replace(CodegenConstant.DOT, File.separator);
-            OutputCfg entityOutputCfg = new OutputCfg().setTemplatePath("/freemarker/jpa/entity")
-                    .setOutputPath(basicCodePath + File.separator + "entity")
-                    .setOutputNamePattern(optCfg.getEntityPattern());
-            OutputCfg daoOutputCfg = new OutputCfg().setTemplatePath("/freemarker/jpa/dao")
-                    .setOutputPath(basicCodePath + File.separator + "dao")
-                    .setOutputNamePattern(optCfg.getDaoPattern());
-            OutputCfg serviceOutputCfg = new OutputCfg().setTemplatePath("/freemarker/jpa/service")
-                    .setOutputPath(basicCodePath + File.separator + "service")
-                    .setOutputNamePattern(optCfg.getServicePattern());
-            OutputCfg serviceImplOutputCfg = new OutputCfg().setTemplatePath("/freemarker/jpa/serviceImpl")
-                    .setOutputPath(basicCodePath + File.separator + "service" + File.separator + "impl")
-                    .setOutputNamePattern(optCfg.getServiceImplPattern());
-            outputCfgList.add(entityOutputCfg);
-            outputCfgList.add(daoOutputCfg);
-            outputCfgList.add(serviceOutputCfg);
-            outputCfgList.add(serviceImplOutputCfg);
-        } else if (CodegenConstant.CODE_TYPE_MYBATISPLUS.equalsIgnoreCase(codeType)) {
-            String basicCodePath = pkgCfg.getRootArtifactDir()
-                    + "src" + File.separator
-                    + "main" + File.separator
-                    + "java" + File.separator
-                    + pkgCfg.getBasePackage().replace(CodegenConstant.DOT, File.separator);
-            OutputCfg entityOutputCfg = new OutputCfg().setTemplatePath("/freemarker/mybatisplus/entity")
-                    .setOutputPath(basicCodePath + File.separator + "entity")
-                    .setOutputNamePattern(optCfg.getEntityPattern());
-            OutputCfg daoOutputCfg = new OutputCfg().setTemplatePath("/freemarker/mybatisplus/dao")
-                    .setOutputPath(basicCodePath + File.separator + "dao")
-                    .setOutputNamePattern(optCfg.getDaoPattern());
-            OutputCfg serviceOutputCfg = new OutputCfg().setTemplatePath("/freemarker/mybatisplus/service")
-                    .setOutputPath(basicCodePath + File.separator + "service")
-                    .setOutputNamePattern(optCfg.getServicePattern());
-            OutputCfg serviceImplOutputCfg = new OutputCfg().setTemplatePath("/freemarker/mybatisplus/serviceImpl")
-                    .setOutputPath(basicCodePath + File.separator + "service" + File.separator + "impl")
-                    .setOutputNamePattern(optCfg.getServiceImplPattern());
-            outputCfgList.add(entityOutputCfg);
-            outputCfgList.add(daoOutputCfg);
-            outputCfgList.add(serviceOutputCfg);
-            outputCfgList.add(serviceImplOutputCfg);
-        } else {
-            throw new ElehallCodegenException("设定的生成代码类型没有得到支持: " + codeType);
-        }
+        String basicCodePath = pkgCfg.getRootArtifactDir()
+                + "src" + File.separator
+                + "main" + File.separator
+                + "java" + File.separator
+                + pkgCfg.getBasePackage().replace(CodegenConstant.DOT, File.separator);
+        OutputCfg entityOutputCfg = new OutputCfg().setTemplatePath(optCfg.getEntityTemplatePath())
+                .setOutputPath(basicCodePath + File.separator + optCfg.getEntitySubPkg().replace(CodegenConstant.DOT, File.separator))
+                .setOutputNamePattern(optCfg.getEntityPattern());
+        OutputCfg daoOutputCfg = new OutputCfg().setTemplatePath(optCfg.getDaoTemplatePath())
+                .setOutputPath(basicCodePath + File.separator + optCfg.getDaoSubPkg().replace(CodegenConstant.DOT, File.separator))
+                .setOutputNamePattern(optCfg.getDaoPattern());
+        OutputCfg serviceOutputCfg = new OutputCfg().setTemplatePath(optCfg.getServiceTemplatePath())
+                .setOutputPath(basicCodePath + File.separator + optCfg.getServiceSubPkg().replace(CodegenConstant.DOT, File.separator))
+                .setOutputNamePattern(optCfg.getServicePattern());
+        OutputCfg serviceImplOutputCfg = new OutputCfg().setTemplatePath(optCfg.getServiceTemplatePath())
+                .setOutputPath(basicCodePath + File.separator + optCfg.getServiceImplSubPkg().replace(CodegenConstant.DOT, File.separator))
+                .setOutputNamePattern(optCfg.getServiceImplPattern());
+        outputCfgList.add(entityOutputCfg);
+        outputCfgList.add(daoOutputCfg);
+        outputCfgList.add(serviceOutputCfg);
+        outputCfgList.add(serviceImplOutputCfg);
+
         //TableInfoCfg
         //todo 目前只支持mysql
         Connection connection = getConnection(dbCfg);

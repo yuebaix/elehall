@@ -57,30 +57,15 @@ public class OrmGeneratorImpl implements OrmGenerator {
         List<OutputCfg> outputCfgList = new ArrayList();
         PkgCfg pkgCfg = ormConfig.getPkgCfg();
         OptCfg optCfg = ormConfig.getOptCfg();
-        String codeType = optCfg.getCodeType();
-        if (CodegenConstant.CODE_TYPE_JPA.equalsIgnoreCase(codeType)) {
-            String basicCodePath = pkgCfg.getRootArtifactDir()
-                    + "src" + File.separator
-                    + "main" + File.separator
-                    + "java" + File.separator
-                    + pkgCfg.getBasePackage().replace(CodegenConstant.DOT, File.separator);
-            OutputCfg entityOutputCfg = new OutputCfg().setTemplatePath("/freemarker/jpa/entity")
-                    .setOutputPath(basicCodePath + File.separator + "entity")
-                    .setOutputNamePattern(optCfg.getEntityPattern());
-            outputCfgList.add(entityOutputCfg);
-        } else if (CodegenConstant.CODE_TYPE_MYBATISPLUS.equalsIgnoreCase(codeType)) {
-            String basicCodePath = pkgCfg.getRootArtifactDir()
-                    + "src" + File.separator
-                    + "main" + File.separator
-                    + "java" + File.separator
-                    + pkgCfg.getBasePackage().replace(CodegenConstant.DOT, File.separator);
-            OutputCfg entityOutputCfg = new OutputCfg().setTemplatePath("/freemarker/mybatisplus/entity")
-                    .setOutputPath(basicCodePath + File.separator + "entity")
-                    .setOutputNamePattern(optCfg.getEntityPattern());
-            outputCfgList.add(entityOutputCfg);
-        } else {
-            throw new ElehallCodegenException("设定的生成代码类型没有得到支持: " + codeType);
-        }
+        String basicCodePath = pkgCfg.getRootArtifactDir()
+                + "src" + File.separator
+                + "main" + File.separator
+                + "java" + File.separator
+                + pkgCfg.getBasePackage().replace(CodegenConstant.DOT, File.separator);
+        OutputCfg entityOutputCfg = new OutputCfg().setTemplatePath(optCfg.getEntityTemplatePath())
+                .setOutputPath(basicCodePath + File.separator + optCfg.getEntitySubPkg().replace(CodegenConstant.DOT, File.separator))
+                .setOutputNamePattern(optCfg.getEntityPattern());
+        outputCfgList.add(entityOutputCfg);
         ormConfig.setOutputCfgList(outputCfgList);
         TemplateEngineStepBuilder.builder(CodegenConstant.BUILDER_TYPE_ORM).init(ormConfig).mkdirs().batchOutput().open();
     }
