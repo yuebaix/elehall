@@ -15,11 +15,13 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 
+import java.io.File;
+import java.net.JarURLConnection;
+import java.net.URL;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 /**
  * <p>Description : 测试入口</p>
@@ -186,5 +188,65 @@ public class EntryRunner {
         }
         columnInfoList.removeAll(toRemoveColums);
         return columnInfoList;
+    }
+
+    @Test
+    public void testJarEntry() {
+        files();
+    }
+
+    @SneakyThrows
+    private void files() {
+        String url = "freemarker/jpa/";
+        Enumeration<URL> possiblePathList = Thread.currentThread().getContextClassLoader().getResources(url);
+        if (possiblePathList == null || !possiblePathList.hasMoreElements()) {
+            return;//目录不存在
+        }
+        while (possiblePathList.hasMoreElements()) {
+            URL pathUrl = possiblePathList.nextElement();
+            if ("file".equals(pathUrl.getProtocol())) {
+                System.out.println(pathUrl);
+                File file = new File(pathUrl.getPath());
+                if (file.isDirectory()) {
+                    File[] subFileList = file.listFiles();
+                    for (File subFile : subFileList) {
+                        if (!subFile.isDirectory()) {
+                            String subNameFile = subFile.getName();
+                            System.out.println(subNameFile.substring(0, subNameFile.indexOf(".")));
+                        }
+                    }
+                }
+            } else if ("jar".equals(pathUrl.getProtocol())) {
+                System.out.println(pathUrl);
+                String jarPath = pathUrl.toString().substring(0, pathUrl.toString().indexOf("!/") + 2);
+
+                URL jarURL = new URL(jarPath);
+                JarURLConnection jarCon = (JarURLConnection) jarURL.openConnection();
+                JarFile jarFile = jarCon.getJarFile();
+                Enumeration<JarEntry> jarEntrys = jarFile.entries();
+
+                while (jarEntrys.hasMoreElements()) {
+                    JarEntry jarEntry = jarEntrys.nextElement();
+                    String innerPath = jarEntry.getName();
+                    if(innerPath.startsWith(url)){
+                        String pathWithoutParent = innerPath.substring(url.length(), innerPath.length());
+//                        System.out.println(innerPath);
+//                        System.out.println(pathWithoutParent);
+                        if (!pathWithoutParent.contains("/") && pathWithoutParent.contains(".")) {
+                            String templateFileName = pathWithoutParent.substring(0, pathWithoutParent.indexOf("."));
+                            System.out.println(templateFileName);
+                        }
+                    }
+                }
+            }
+        }
+        /*URL pathUrl = possiblePathList.nextElement();
+        if ("file".equals(pathUrl.getProtocol())) {
+            System.out.println(pathUrl.getPath());
+        } else if ("jar".equals(pathUrl.getProtocol())) {
+            System.out.println(pathUrl.getPath());
+        } else {
+            return;//文件协议不支持
+        }*/
     }
 }
