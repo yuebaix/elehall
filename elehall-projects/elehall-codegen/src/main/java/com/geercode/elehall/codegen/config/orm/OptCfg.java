@@ -19,11 +19,26 @@ public class OptCfg {
     private String codeType = CodegenConstant.CODE_TYPE_JPA;
     private boolean override = true;
     private Set<String> includeTables;
+
     private Set<String> baseColumns;
     private String baseCodePackage;
+    private String baseTemplateParentPath;
+
+    private String entitySubPkg = "entity";
+    private String daoSubPkg = "dao";
+    private String ServiceSubPkg = "service";
+    private String serviceImplSubPkg = "service.impl";
+    private String controllerSubPkg = "controller";
+
     private String entityPattern = "%sEntity";
     private String daoPattern = "%sDao";
     private String servicePattern = "%sService";
     private String serviceImplPattern = "%sServiceImpl";
     private String controllerPattern = "%sController";
+
+    private String entityTemplatePath;
+    private String daoTemplatePath;
+    private String serviceTemplatePath;
+    private String serviceImplTemplatePath;
+    private String controllerTemplatePath;
 }

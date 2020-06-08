@@ -55,6 +55,25 @@ public class OrmConfigBuilder {
     private static final String INCLUDE_TABLES_KEY = "includeTables";
     private static final String BASE_COLUMNS_KEY = "baseColumns";
     private static final String BASE_CODE_PACKAGE_KEY = "baseCodePackage";
+    private static final String BASE_TEMPLATE_PARENT_PATH_KEY = "baseTemplateParentPath";
+
+    private static final String ENTITY_SUB_PKG_KEY = "entitySubPkg";
+    private static final String DAO_SUB_PKG_KEY = "daoSubPkg";
+    private static final String SERVICE_SUB_PKG_KEY = "serviceSubPkg";
+    private static final String SERVICEIMPL_SUB_PKG_KEY = "serviceImplSubPkg";
+    private static final String CONTROLLER_SUB_PKG_KEY = "controllerSubPkg";
+
+    private static final String ENTITY_PATTERN_KEY = "entityPattern";
+    private static final String DAO_PATTERN_KEY = "daoPattern";
+    private static final String SERVICE_PATTERN_KEY = "servicePattern";
+    private static final String SERVICEIMPL_PATTERN_KEY = "serviceImplPattern";
+    private static final String CONTROLLER_PATTERN_KEY = "controllerPattern";
+
+    private static final String ENTITY_TEMPLATE_PATH_KEY = "entityTemplatePath";
+    private static final String DAO_TEMPLATE_PATH_KEY = "daoTemplatePath";
+    private static final String SERVICE_TEMPLATE_PATH_KEY = "serviceTemplatePath";
+    private static final String SERVICEIMPL_TEMPLATE_PATH_KEY = "serviceImplTemplatePath";
+    private static final String CONTROLLER_TEMPLATE_PATH_KEY = "controllerTemplatePath";
 
     public static OrmConfig build() {
         GavCfg gavCfg = new GavCfg();
@@ -141,7 +160,79 @@ public class OrmConfigBuilder {
         if (StringUtil.isEmpty(baseCodePackage)) {
             baseCodePackage = pkgCfg.getBasePackage() + CodegenConstant.DOT + "common";
         }
-        optCfg.setEngineType(engineType).setCodeType(codeType).setOverride(override).setIncludeTables(includeTables).setBaseColumns(baseColumns).setBaseCodePackage(baseCodePackage);
+        String baseTemplateParentPath = properties.get(BASE_TEMPLATE_PARENT_PATH_KEY);
+        if (StringUtil.isEmpty(baseTemplateParentPath)) {
+            baseTemplateParentPath = CodegenConstant.SLASH + engineType + CodegenConstant.SLASH + codeType + CodegenConstant.SLASH + "base" + CodegenConstant.SLASH;
+        }
+        //子包
+        String entitySubPkg = properties.get(ENTITY_SUB_PKG_KEY);
+        if (StringUtil.isEmpty(entitySubPkg)) {
+            entitySubPkg = "entity";
+        }
+        String daoSubPkg = properties.get(DAO_SUB_PKG_KEY);
+        if (StringUtil.isEmpty(daoSubPkg)) {
+            daoSubPkg = "dao";
+        }
+        String serviceSubPkg = properties.get(SERVICE_SUB_PKG_KEY);
+        if (StringUtil.isEmpty(serviceSubPkg)) {
+            serviceSubPkg = "service";
+        }
+        String serviceImplSubPkg = properties.get(SERVICEIMPL_SUB_PKG_KEY);
+        if (StringUtil.isEmpty(serviceImplSubPkg)) {
+            serviceImplSubPkg = "service.impl";
+        }
+        String controllerSubPkg = properties.get(CONTROLLER_SUB_PKG_KEY);
+        if (StringUtil.isEmpty(controllerSubPkg)) {
+            controllerSubPkg = "controller";
+        }
+        //class名规则
+        String entityPattern = properties.get(ENTITY_PATTERN_KEY);
+        if (StringUtil.isEmpty(entityPattern)) {
+            entityPattern = "%sEntity";
+        }
+        String daoPattern = properties.get(DAO_PATTERN_KEY);
+        if (StringUtil.isEmpty(daoPattern)) {
+            daoPattern = "%sDao";
+        }
+        String servicePattern = properties.get(SERVICE_PATTERN_KEY);
+        if (StringUtil.isEmpty(servicePattern)) {
+            servicePattern = "%sService";
+        }
+        String serviceImplPattern = properties.get(SERVICEIMPL_PATTERN_KEY);
+        if (StringUtil.isEmpty(serviceImplPattern)) {
+            serviceImplPattern = "%sServiceImpl";
+        }
+        String controllerPattern = properties.get(CONTROLLER_PATTERN_KEY);
+        if (StringUtil.isEmpty(controllerPattern)) {
+            controllerPattern = "%sController";
+        }
+        //模板路径
+        String entityTemplatePath = properties.get(ENTITY_TEMPLATE_PATH_KEY);
+        if (StringUtil.isEmpty(entityTemplatePath)) {
+            entityTemplatePath = CodegenConstant.SLASH + engineType + CodegenConstant.SLASH + codeType + CodegenConstant.SLASH + "entity";
+        }
+        String daoTemplatePath = properties.get(DAO_TEMPLATE_PATH_KEY);
+        if (StringUtil.isEmpty(daoTemplatePath)) {
+            daoTemplatePath = CodegenConstant.SLASH + engineType + CodegenConstant.SLASH + codeType + CodegenConstant.SLASH + "dao";
+        }
+        String serviceTemplatePath = properties.get(SERVICE_TEMPLATE_PATH_KEY);
+        if (StringUtil.isEmpty(serviceTemplatePath)) {
+            serviceTemplatePath = CodegenConstant.SLASH + engineType + CodegenConstant.SLASH + codeType + CodegenConstant.SLASH + "service";
+        }
+        String serviceImplTemplatePath = properties.get(SERVICEIMPL_TEMPLATE_PATH_KEY);
+        if (StringUtil.isEmpty(serviceImplTemplatePath)) {
+            serviceImplTemplatePath = CodegenConstant.SLASH + engineType + CodegenConstant.SLASH + codeType + CodegenConstant.SLASH + "serviceImpl";
+        }
+        String controllerTemplatePath = properties.get(CONTROLLER_TEMPLATE_PATH_KEY);
+        if (StringUtil.isEmpty(controllerTemplatePath)) {
+            controllerTemplatePath = CodegenConstant.SLASH + engineType + CodegenConstant.SLASH + codeType + CodegenConstant.SLASH + "controller";
+        }
+
+        optCfg.setEngineType(engineType).setCodeType(codeType).setOverride(override).setIncludeTables(includeTables)
+                .setBaseColumns(baseColumns).setBaseCodePackage(baseCodePackage).setBaseTemplateParentPath(baseTemplateParentPath)
+                .setEntitySubPkg(entitySubPkg).setDaoSubPkg(daoSubPkg).setServiceSubPkg(serviceSubPkg).setServiceImplSubPkg(serviceImplSubPkg).setControllerSubPkg(controllerSubPkg)
+                .setEntityPattern(entityPattern).setDaoPattern(daoPattern).setServicePattern(servicePattern).setServiceImplPattern(serviceImplPattern).setControllerPattern(controllerPattern)
+                .setEntityTemplatePath(entityTemplatePath).setDaoTemplatePath(daoTemplatePath).setServiceTemplatePath(serviceTemplatePath).setServiceImplTemplatePath(serviceImplTemplatePath).setControllerTemplatePath(controllerTemplatePath);
 
         //OutputCfg
         if (CodegenConstant.CODE_TYPE_JPA.equalsIgnoreCase(codeType)) {
