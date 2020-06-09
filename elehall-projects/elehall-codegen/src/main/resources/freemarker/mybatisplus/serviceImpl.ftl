@@ -16,5 +16,5 @@ import org.springframework.stereotype.Service;
 */
 @Service
 public class ${serviceImplName} extends AbstractBaseService<${daoName}, ${entityName}>
-implements ${serviceName} {
+        implements ${serviceName} {
 }

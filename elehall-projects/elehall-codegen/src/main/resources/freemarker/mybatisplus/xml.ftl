@@ -16,7 +16,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        <#list table.columnInfoList as column><#if column_index != 0>,</#if>${column.name}</#list>
+        <#list table.columnInfoList as column><#if column_index != 0>, </#if>${column.name}</#list>
         <#if table.extendBase>
             <#list table.baseColumnList as column>,${column.name}</#list>
         </#if>

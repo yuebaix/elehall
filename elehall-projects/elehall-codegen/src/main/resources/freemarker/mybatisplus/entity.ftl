@@ -40,12 +40,15 @@ public class ${entityName} implements Serializable {
 </#if>
 <#if table.columnInfoList??>
     <#list table.columnInfoList as column>
-    <#if column.comment != ''>
+    <#if column_index != 0>
 
+    </#if>
+    <#if column.comment != ''>
     /**
     * ${column.comment}
     */
     </#if>
+    @ApiModelProperty(value = "${column.comment}")
     <#if column.key = 'PRI'>
     @TableId("${column.name}")
     <#else>
