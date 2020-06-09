@@ -11,11 +11,16 @@ import com.geercode.elehall.codegen.config.orm.vo.ColumnInfo;
 import com.geercode.elehall.codegen.config.orm.vo.TableInfo;
 import com.geercode.elehall.common.util.ResourceUtil;
 import com.geercode.elehall.common.util.StringUtil;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
+import java.net.JarURLConnection;
+import java.net.URL;
 import java.sql.*;
 import java.util.*;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 import java.util.stream.Collectors;
 
 /**
@@ -389,5 +394,53 @@ public class OrmConfigBuilder {
         }
         columnInfoList.removeAll(toRemoveColums);
         return columnInfoList;
+    }
+
+    @SneakyThrows
+    public static Set<String> getSubFileName(String url) {
+        Enumeration<URL> possiblePathList = Thread.currentThread().getContextClassLoader().getResources(url);
+        if (possiblePathList == null || !possiblePathList.hasMoreElements()) {
+            return Collections.emptySet();//目录不存在
+        }
+        URL pathUrl = possiblePathList.nextElement();
+        Set<String> subFileNameSet = new HashSet<>();
+        if (CodegenConstant.FILE_PROTOCOL.equals(pathUrl.getProtocol())) {
+            System.out.println(pathUrl.getPath());
+            File file = new File(pathUrl.getPath());
+            if (file.isDirectory()) {
+                File[] subFileList = file.listFiles();
+                for (File subFile : subFileList) {
+                    if (!subFile.isDirectory()) {
+                        String subNameFile = subFile.getName().substring(0, subFile.getName().indexOf("."));
+                        System.out.println(subNameFile);
+                        subFileNameSet.add(subNameFile);
+                    }
+                }
+            }
+        } else if (CodegenConstant.JAR_PROTOCOL.equals(pathUrl.getProtocol())) {
+            System.out.println(pathUrl.getPath());
+            String jarPath = pathUrl.toString().substring(0, pathUrl.toString().indexOf(CodegenConstant.JAR_FILE_SPLITER) + 2);
+
+            URL jarURL = new URL(jarPath);
+            JarURLConnection jarCon = (JarURLConnection) jarURL.openConnection();
+            JarFile jarFile = jarCon.getJarFile();
+            Enumeration<JarEntry> jarEntrys = jarFile.entries();
+
+            while (jarEntrys.hasMoreElements()) {
+                JarEntry jarEntry = jarEntrys.nextElement();
+                String innerPath = jarEntry.getName();
+                if(innerPath.startsWith(url)){
+                    String pathWithoutParent = innerPath.substring(url.length(), innerPath.length());
+                    if (!pathWithoutParent.contains(CodegenConstant.SLASH) && pathWithoutParent.contains(CodegenConstant.DOT)) {
+                        String templateFileName = pathWithoutParent.substring(0, pathWithoutParent.indexOf(CodegenConstant.DOT));
+                        System.out.println(templateFileName);
+                        subFileNameSet.add(templateFileName);
+                    }
+                }
+            }
+        } else {
+            log.error("文件协议不支持>" + pathUrl.getProtocol());
+        }
+        return subFileNameSet;
     }
 }

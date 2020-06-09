@@ -192,7 +192,8 @@ public class EntryRunner {
 
     @Test
     public void testJarEntry() {
-        files();
+        Set<String> subFileNameSet = OrmConfigBuilder.getSubFileName("freemarker/jpa/");
+        System.out.println(subFileNameSet);
     }
 
     @SneakyThrows
