@@ -81,7 +81,7 @@ public class TemplateEngineStepBuilder {
                 String templateStr = outputCfg.getTemplatePath();
                 String templateFileName = templateStr;
                 if (templateStr.contains(CodegenConstant.SLASH)) {
-                    templateFileName = templateStr.substring(templateStr.lastIndexOf(CodegenConstant.SLASH), templateStr.length());
+                    templateFileName = templateStr.substring(templateStr.lastIndexOf(CodegenConstant.SLASH) + 1, templateStr.length());
                 }
                 String templatePath = engine.templateFilePath(outputCfg.getTemplatePath());
                 String outputFile = outputCfg.getOutputPath() + File.separator + String.format(outputCfg.getOutputNamePattern(), templateFileName) + ".java";

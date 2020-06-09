@@ -39,8 +39,8 @@ public class EntryRunner {
      */
     @Test
     public void fromFacade() {
-        //Codegen.orm().genBase();
-        Codegen.orm().genAll();
+        Codegen.orm().genBase();
+        //Codegen.orm().genAll();
         //Codegen.orm().genXml();
         //Codegen.orm().genWeb();
 
