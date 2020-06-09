@@ -15,4 +15,5 @@ public class OutputCfg {
     private String templatePath;
     private String outputPath;
     private String outputNamePattern;
+    private String fileExtension = "java";
 }

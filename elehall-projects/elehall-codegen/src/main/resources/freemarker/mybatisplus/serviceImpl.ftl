@@ -1,10 +1,11 @@
 ${header}
 
-package ${package}.service.impl;
+package ${package}.${serviceImplSubPkg};
 
-import ${baseCodePackage}.BaseServiceImpl;
-import ${package}.entity.${entityName};
-import ${package}.service.${serviceName};
+import ${baseCodePackage}.AbstractBaseService;
+import ${package}.${entitySubPkg}.${entityName};
+import ${package}.${daoSubPkg}.${daoName};
+import ${package}.${serviceSubPkg}.${serviceName};
 import org.springframework.stereotype.Service;
 
 /**
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 *
 * @author ${author}
 */
-@Service("${package}.service.impl.${serviceImplName}")
-public class ${serviceImplName} extends BaseServiceImpl<${entityName}, ${pkTypeClass}> implements ${serviceName} {
+@Service
+public class ${serviceImplName} extends AbstractBaseService<${daoName}, ${entityName}>
+implements ${serviceName} {
 }

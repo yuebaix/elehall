@@ -39,8 +39,11 @@ public class EntryRunner {
      */
     @Test
     public void fromFacade() {
-        //Codegen.orm().genAll();
-        Codegen.orm().genEntity();
+        //Codegen.orm().genBase();
+        Codegen.orm().genAll();
+        //Codegen.orm().genXml();
+        //Codegen.orm().genWeb();
+
     }
 
     @Test
@@ -192,8 +195,9 @@ public class EntryRunner {
 
     @Test
     public void testJarEntry() {
-        Set<String> subFileNameSet = OrmConfigBuilder.getSubFileName("freemarker/jpa/");
-        System.out.println(subFileNameSet);
+        //Set<String> subFileNameSet = OrmConfigBuilder.getSubFileName("freemarker/jpa/");
+        //System.out.println(subFileNameSet);
+        Codegen.orm().genBase();
     }
 
     @SneakyThrows

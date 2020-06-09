@@ -16,5 +16,6 @@ public class TableInfo {
     private String nameCamelCase;
     private String comment;
     private boolean extendBase;
+    private List<ColumnInfo> baseColumnList;
     private List<ColumnInfo> columnInfoList;
 }

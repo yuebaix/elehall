@@ -4,10 +4,12 @@ import com.geercode.elehall.codegen.common.ElehallCodegenException;
 import com.geercode.elehall.codegen.config.CodegenConstant;
 import com.geercode.elehall.codegen.config.orm.*;
 import com.geercode.elehall.codegen.engine.TemplateEngineStepBuilder;
+import com.sun.org.apache.bcel.internal.classfile.Code;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>Description : 单包模式下的jpa代码生成</p>
@@ -44,12 +46,43 @@ public class OrmGeneratorImpl implements OrmGenerator {
 
     @Override
     public void genBase() {
-        throw new ElehallCodegenException("暂不支持base文件生成");
+        List<OutputCfg> outputCfgList = new ArrayList();
+        PkgCfg pkgCfg = ormConfig.getPkgCfg();
+        OptCfg optCfg = ormConfig.getOptCfg();
+        String baseCodePackagePath = pkgCfg.getRootArtifactDir()
+                + "src" + File.separator
+                + "main" + File.separator
+                + "java" + File.separator
+                + optCfg.getBaseCodePackage().replace(CodegenConstant.DOT, File.separator);
+        Set<String> baseTemplateFileNameSet = OrmConfigBuilder.getSubFileName(optCfg.getBaseTemplateParentPath());
+        for (String templateName : baseTemplateFileNameSet) {
+            OutputCfg baseOutputCfg = new OutputCfg().setTemplatePath(optCfg.getBaseTemplateParentPath() + templateName)
+                    .setOutputPath(baseCodePackagePath)
+                    .setOutputNamePattern("%s");
+            outputCfgList.add(baseOutputCfg);
+        }
+        System.out.println(outputCfgList);
+        ormConfig.setOutputCfgList(outputCfgList);
+        TemplateEngineStepBuilder.builder(CodegenConstant.BUILDER_TYPE_ORM).init(ormConfig).mkdirs().genBase().open();
     }
 
     @Override
     public void genXml() {
-        throw new ElehallCodegenException("暂不支持xml文件生成");
+        List<OutputCfg> outputCfgList = new ArrayList();
+        PkgCfg pkgCfg = ormConfig.getPkgCfg();
+        OptCfg optCfg = ormConfig.getOptCfg();
+        String resourcePath = pkgCfg.getRootArtifactDir()
+                + "src" + File.separator
+                + "main" + File.separator
+                + "resources" + File.separator
+                + "mapper";
+        OutputCfg xmlOutputCfg = new OutputCfg().setTemplatePath(optCfg.getXmlTemplatePath())
+                .setOutputPath(resourcePath + File.separator + optCfg.getXmlSubPkg().replace(CodegenConstant.DOT, File.separator))
+                .setOutputNamePattern(optCfg.getXmlPattern())
+                .setFileExtension(CodegenConstant.FILE_EXT_XML);
+        outputCfgList.add(xmlOutputCfg);
+        ormConfig.setOutputCfgList(outputCfgList);
+        TemplateEngineStepBuilder.builder(CodegenConstant.BUILDER_TYPE_ORM).init(ormConfig).mkdirs().batchOutput().open();
     }
 
     @Override
@@ -72,17 +105,60 @@ public class OrmGeneratorImpl implements OrmGenerator {
 
     @Override
     public void genDao() {
-
+        List<OutputCfg> outputCfgList = new ArrayList();
+        PkgCfg pkgCfg = ormConfig.getPkgCfg();
+        OptCfg optCfg = ormConfig.getOptCfg();
+        String basicCodePath = pkgCfg.getRootArtifactDir()
+                + "src" + File.separator
+                + "main" + File.separator
+                + "java" + File.separator
+                + pkgCfg.getBasePackage().replace(CodegenConstant.DOT, File.separator);
+        OutputCfg daoOutputCfg = new OutputCfg().setTemplatePath(optCfg.getDaoTemplatePath())
+                .setOutputPath(basicCodePath + File.separator + optCfg.getDaoSubPkg().replace(CodegenConstant.DOT, File.separator))
+                .setOutputNamePattern(optCfg.getDaoPattern());
+        outputCfgList.add(daoOutputCfg);
+        ormConfig.setOutputCfgList(outputCfgList);
+        TemplateEngineStepBuilder.builder(CodegenConstant.BUILDER_TYPE_ORM).init(ormConfig).mkdirs().batchOutput().open();
     }
 
     @Override
     public void genService() {
-
+        List<OutputCfg> outputCfgList = new ArrayList();
+        PkgCfg pkgCfg = ormConfig.getPkgCfg();
+        OptCfg optCfg = ormConfig.getOptCfg();
+        String basicCodePath = pkgCfg.getRootArtifactDir()
+                + "src" + File.separator
+                + "main" + File.separator
+                + "java" + File.separator
+                + pkgCfg.getBasePackage().replace(CodegenConstant.DOT, File.separator);
+        OutputCfg serviceOutputCfg = new OutputCfg().setTemplatePath(optCfg.getServiceTemplatePath())
+                .setOutputPath(basicCodePath + File.separator + optCfg.getServiceSubPkg().replace(CodegenConstant.DOT, File.separator))
+                .setOutputNamePattern(optCfg.getServicePattern());
+        OutputCfg serviceImplOutputCfg = new OutputCfg().setTemplatePath(optCfg.getServiceImplTemplatePath())
+                .setOutputPath(basicCodePath + File.separator + optCfg.getServiceImplSubPkg().replace(CodegenConstant.DOT, File.separator))
+                .setOutputNamePattern(optCfg.getServiceImplPattern());
+        outputCfgList.add(serviceOutputCfg);
+        outputCfgList.add(serviceImplOutputCfg);
+        ormConfig.setOutputCfgList(outputCfgList);
+        TemplateEngineStepBuilder.builder(CodegenConstant.BUILDER_TYPE_ORM).init(ormConfig).mkdirs().batchOutput().open();
     }
 
     @Override
     public void genWeb() {
-        throw new ElehallCodegenException("暂不支持web文件生成");
+        List<OutputCfg> outputCfgList = new ArrayList();
+        PkgCfg pkgCfg = ormConfig.getPkgCfg();
+        OptCfg optCfg = ormConfig.getOptCfg();
+        String basicCodePath = pkgCfg.getRootArtifactDir()
+                + "src" + File.separator
+                + "main" + File.separator
+                + "java" + File.separator
+                + pkgCfg.getBasePackage().replace(CodegenConstant.DOT, File.separator);
+        OutputCfg controllerOutputCfg = new OutputCfg().setTemplatePath(optCfg.getControllerTemplatePath())
+                .setOutputPath(basicCodePath + File.separator + optCfg.getControllerSubPkg().replace(CodegenConstant.DOT, File.separator))
+                .setOutputNamePattern(optCfg.getControllerPattern());
+        outputCfgList.add(controllerOutputCfg);
+        ormConfig.setOutputCfgList(outputCfgList);
+        TemplateEngineStepBuilder.builder(CodegenConstant.BUILDER_TYPE_ORM).init(ormConfig).mkdirs().batchOutput().open();
     }
 
     @Override

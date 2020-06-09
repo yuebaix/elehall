@@ -64,18 +64,21 @@ public class OrmConfigBuilder {
 
     private static final String ENTITY_SUB_PKG_KEY = "entitySubPkg";
     private static final String DAO_SUB_PKG_KEY = "daoSubPkg";
+    private static final String XML_SUB_PKG_KEY = "xmlSubPkg";
     private static final String SERVICE_SUB_PKG_KEY = "serviceSubPkg";
     private static final String SERVICEIMPL_SUB_PKG_KEY = "serviceImplSubPkg";
     private static final String CONTROLLER_SUB_PKG_KEY = "controllerSubPkg";
 
     private static final String ENTITY_PATTERN_KEY = "entityPattern";
     private static final String DAO_PATTERN_KEY = "daoPattern";
+    private static final String XML_PATTERN_KEY = "xmlPattern";
     private static final String SERVICE_PATTERN_KEY = "servicePattern";
     private static final String SERVICEIMPL_PATTERN_KEY = "serviceImplPattern";
     private static final String CONTROLLER_PATTERN_KEY = "controllerPattern";
 
     private static final String ENTITY_TEMPLATE_PATH_KEY = "entityTemplatePath";
     private static final String DAO_TEMPLATE_PATH_KEY = "daoTemplatePath";
+    private static final String XML_TEMPLATE_PATH_KEY = "xmlTemplatePath";
     private static final String SERVICE_TEMPLATE_PATH_KEY = "serviceTemplatePath";
     private static final String SERVICEIMPL_TEMPLATE_PATH_KEY = "serviceImplTemplatePath";
     private static final String CONTROLLER_TEMPLATE_PATH_KEY = "controllerTemplatePath";
@@ -167,16 +170,20 @@ public class OrmConfigBuilder {
         }
         String baseTemplateParentPath = properties.get(BASE_TEMPLATE_PARENT_PATH_KEY);
         if (StringUtil.isEmpty(baseTemplateParentPath)) {
-            baseTemplateParentPath = CodegenConstant.SLASH + engineType + CodegenConstant.SLASH + codeType + CodegenConstant.SLASH + "base" + CodegenConstant.SLASH;
+            baseTemplateParentPath = engineType + CodegenConstant.SLASH + codeType + CodegenConstant.SLASH + "base" + CodegenConstant.SLASH;
         }
         //子包
         String entitySubPkg = properties.get(ENTITY_SUB_PKG_KEY);
         if (StringUtil.isEmpty(entitySubPkg)) {
-            entitySubPkg = "entity";
+            entitySubPkg = "entity.ftl";
         }
         String daoSubPkg = properties.get(DAO_SUB_PKG_KEY);
         if (StringUtil.isEmpty(daoSubPkg)) {
             daoSubPkg = "dao";
+        }
+        String xmlSubPkg = properties.get(XML_SUB_PKG_KEY);
+        if (StringUtil.isEmpty(xmlSubPkg)) {
+            xmlSubPkg = "";
         }
         String serviceSubPkg = properties.get(SERVICE_SUB_PKG_KEY);
         if (StringUtil.isEmpty(serviceSubPkg)) {
@@ -199,6 +206,10 @@ public class OrmConfigBuilder {
         if (StringUtil.isEmpty(daoPattern)) {
             daoPattern = "%sDao";
         }
+        String xmlPattern = properties.get(XML_PATTERN_KEY);
+        if (StringUtil.isEmpty(xmlPattern)) {
+            xmlPattern = "%sMapper";
+        }
         String servicePattern = properties.get(SERVICE_PATTERN_KEY);
         if (StringUtil.isEmpty(servicePattern)) {
             servicePattern = "%sService";
@@ -220,6 +231,10 @@ public class OrmConfigBuilder {
         if (StringUtil.isEmpty(daoTemplatePath)) {
             daoTemplatePath = CodegenConstant.SLASH + engineType + CodegenConstant.SLASH + codeType + CodegenConstant.SLASH + "dao";
         }
+        String xmlTemplatePath = properties.get(XML_TEMPLATE_PATH_KEY);
+        if (StringUtil.isEmpty(xmlTemplatePath)) {
+            xmlTemplatePath = CodegenConstant.SLASH + engineType + CodegenConstant.SLASH + codeType + CodegenConstant.SLASH + "xml";
+        }
         String serviceTemplatePath = properties.get(SERVICE_TEMPLATE_PATH_KEY);
         if (StringUtil.isEmpty(serviceTemplatePath)) {
             serviceTemplatePath = CodegenConstant.SLASH + engineType + CodegenConstant.SLASH + codeType + CodegenConstant.SLASH + "service";
@@ -235,9 +250,9 @@ public class OrmConfigBuilder {
 
         optCfg.setEngineType(engineType).setCodeType(codeType).setOverride(override).setIncludeTables(includeTables)
                 .setBaseColumns(baseColumns).setBaseCodePackage(baseCodePackage).setBaseTemplateParentPath(baseTemplateParentPath)
-                .setEntitySubPkg(entitySubPkg).setDaoSubPkg(daoSubPkg).setServiceSubPkg(serviceSubPkg).setServiceImplSubPkg(serviceImplSubPkg).setControllerSubPkg(controllerSubPkg)
-                .setEntityPattern(entityPattern).setDaoPattern(daoPattern).setServicePattern(servicePattern).setServiceImplPattern(serviceImplPattern).setControllerPattern(controllerPattern)
-                .setEntityTemplatePath(entityTemplatePath).setDaoTemplatePath(daoTemplatePath).setServiceTemplatePath(serviceTemplatePath).setServiceImplTemplatePath(serviceImplTemplatePath).setControllerTemplatePath(controllerTemplatePath);
+                .setEntitySubPkg(entitySubPkg).setDaoSubPkg(daoSubPkg).setXmlSubPkg(xmlSubPkg).setServiceSubPkg(serviceSubPkg).setServiceImplSubPkg(serviceImplSubPkg).setControllerSubPkg(controllerSubPkg)
+                .setEntityPattern(entityPattern).setDaoPattern(daoPattern).setXmlPattern(xmlPattern).setServicePattern(servicePattern).setServiceImplPattern(serviceImplPattern).setControllerPattern(controllerPattern)
+                .setEntityTemplatePath(entityTemplatePath).setDaoTemplatePath(daoTemplatePath).setXmlTemplatePath(xmlTemplatePath).setServiceTemplatePath(serviceTemplatePath).setServiceImplTemplatePath(serviceImplTemplatePath).setControllerTemplatePath(controllerTemplatePath);
 
         //OutputCfg
         String basicCodePath = pkgCfg.getRootArtifactDir()
@@ -254,7 +269,7 @@ public class OrmConfigBuilder {
         OutputCfg serviceOutputCfg = new OutputCfg().setTemplatePath(optCfg.getServiceTemplatePath())
                 .setOutputPath(basicCodePath + File.separator + optCfg.getServiceSubPkg().replace(CodegenConstant.DOT, File.separator))
                 .setOutputNamePattern(optCfg.getServicePattern());
-        OutputCfg serviceImplOutputCfg = new OutputCfg().setTemplatePath(optCfg.getServiceTemplatePath())
+        OutputCfg serviceImplOutputCfg = new OutputCfg().setTemplatePath(optCfg.getServiceImplTemplatePath())
                 .setOutputPath(basicCodePath + File.separator + optCfg.getServiceImplSubPkg().replace(CodegenConstant.DOT, File.separator))
                 .setOutputNamePattern(optCfg.getServiceImplPattern());
         outputCfgList.add(entityOutputCfg);
@@ -309,8 +324,10 @@ public class OrmConfigBuilder {
                         log.debug(columnInfo.toString());
                     }
                     if (couldExtendBase(columnInfoList, baseColumns)) {
-                        removebaseColumn(columnInfoList, baseColumns);
+                        List<ColumnInfo> baseColumnList = evalbaseColumn(columnInfoList, baseColumns);
                         tableInfo.setExtendBase(true);
+                        tableInfo.setBaseColumnList(baseColumnList);
+                        columnInfoList.removeAll(baseColumnList);
                     }
                     tableInfo.setColumnInfoList(columnInfoList);
                     tableInfoList.add(tableInfo);
@@ -381,7 +398,7 @@ public class OrmConfigBuilder {
         return false;
     }
 
-    private static List<ColumnInfo> removebaseColumn(List<ColumnInfo> columnInfoList, Set<String> baseColumns) {
+    private static List<ColumnInfo> evalbaseColumn(List<ColumnInfo> columnInfoList, Set<String> baseColumns) {
         List<ColumnInfo> toRemoveColums = new ArrayList();
 
         for (String columnName : baseColumns) {
@@ -392,8 +409,7 @@ public class OrmConfigBuilder {
                 }
             }
         }
-        columnInfoList.removeAll(toRemoveColums);
-        return columnInfoList;
+        return toRemoveColums;
     }
 
     @SneakyThrows
@@ -405,20 +421,20 @@ public class OrmConfigBuilder {
         URL pathUrl = possiblePathList.nextElement();
         Set<String> subFileNameSet = new HashSet<>();
         if (CodegenConstant.FILE_PROTOCOL.equals(pathUrl.getProtocol())) {
-            System.out.println(pathUrl.getPath());
+            log.info(pathUrl.getPath());
             File file = new File(pathUrl.getPath());
             if (file.isDirectory()) {
                 File[] subFileList = file.listFiles();
                 for (File subFile : subFileList) {
                     if (!subFile.isDirectory()) {
                         String subNameFile = subFile.getName().substring(0, subFile.getName().indexOf("."));
-                        System.out.println(subNameFile);
+                        log.info(subNameFile);
                         subFileNameSet.add(subNameFile);
                     }
                 }
             }
         } else if (CodegenConstant.JAR_PROTOCOL.equals(pathUrl.getProtocol())) {
-            System.out.println(pathUrl.getPath());
+            log.info(pathUrl.getPath());
             String jarPath = pathUrl.toString().substring(0, pathUrl.toString().indexOf(CodegenConstant.JAR_FILE_SPLITER) + 2);
 
             URL jarURL = new URL(jarPath);
@@ -433,7 +449,7 @@ public class OrmConfigBuilder {
                     String pathWithoutParent = innerPath.substring(url.length(), innerPath.length());
                     if (!pathWithoutParent.contains(CodegenConstant.SLASH) && pathWithoutParent.contains(CodegenConstant.DOT)) {
                         String templateFileName = pathWithoutParent.substring(0, pathWithoutParent.indexOf(CodegenConstant.DOT));
-                        System.out.println(templateFileName);
+                        log.info(templateFileName);
                         subFileNameSet.add(templateFileName);
                     }
                 }

@@ -1,16 +1,19 @@
 ${header}
 
-package ${package}.entity;
+package ${package}.${entitySubPkg};
 
 <#if table.extendBase>
-import ${baseCodePackage}.BaseEntity;
+import ${baseCodePackage}.AbstractBaseEntity;
+import lombok.EqualsAndHashCode;
 </#if>
 import lombok.Data;
 import lombok.experimental.Accessors;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
-import javax.persistence.*;
 <#if importPackages??>
 <#list importPackages as pkg>
 import ${pkg};
@@ -23,16 +26,15 @@ import ${pkg};
 *
 * @author ${author}
 */
-<#if table.comment != ''>
-</#if>
-@Entity
-@DynamicInsert
-@DynamicUpdate
 @Data
-@Accessors(chain = true)
-@Table(name = "${table.name}")
 <#if table.extendBase>
-public class ${entityName} extends BaseEntity implements Serializable {
+@EqualsAndHashCode(callSuper = true)
+</#if>
+@Accessors(chain = true)
+@TableName("${table.name}")
+@ApiModel(value = "${entityName}", description = "${table.comment}")
+<#if table.extendBase>
+public class ${entityName} extends AbstractBaseEntity<${entityName}> {
 <#else>
 public class ${entityName} implements Serializable {
 </#if>
@@ -45,12 +47,10 @@ public class ${entityName} implements Serializable {
     */
     </#if>
     <#if column.key = 'PRI'>
-    @Id
-    <#if column.extra = 'auto_increment'>
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @TableId("${column.name}")
+    <#else>
+    @TableField("${column.name}")
     </#if>
-    </#if>
-    @Column(name = "${column.name}")
     private ${column.type} ${column.nameCamelCase};
     </#list>
 </#if>

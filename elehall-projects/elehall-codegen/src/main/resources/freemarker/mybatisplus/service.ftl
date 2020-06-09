@@ -1,9 +1,9 @@
 ${header}
 
-package ${package}.service;
+package ${package}.${serviceSubPkg};
 
 import ${baseCodePackage}.BaseService;
-import ${package}.entity.${entityName};
+import ${package}.${entitySubPkg}.${entityName};
 
 /**
 * <p>Description : ${table.comment}</p>
@@ -11,5 +11,5 @@ import ${package}.entity.${entityName};
 *
 * @author ${author}
 */
-public interface ${serviceName} extends BaseService<${entityName}, ${pkTypeClass}> {
+public interface ${serviceName} extends BaseService<${entityName}> {
 }

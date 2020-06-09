@@ -48,5 +48,7 @@ public class CodegenConstant {
     public static final String JAR_PROTOCOL = "jar";
     public static final String JAR_FILE_SPLITER = "!/";
 
+    public static final String FILE_EXT_XML = "xml";
+
     public static final String PK_SIGN_MYSQL = "PRI";
 }

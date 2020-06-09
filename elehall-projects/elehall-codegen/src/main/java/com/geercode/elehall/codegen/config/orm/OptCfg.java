@@ -24,20 +24,23 @@ public class OptCfg {
     private String baseCodePackage;
     private String baseTemplateParentPath;
 
-    private String entitySubPkg = "entity";
+    private String entitySubPkg = "entity.ftl";
     private String daoSubPkg = "dao";
+    private String xmlSubPkg = "";
     private String ServiceSubPkg = "service";
     private String serviceImplSubPkg = "service.impl";
     private String controllerSubPkg = "controller";
 
     private String entityPattern = "%sEntity";
     private String daoPattern = "%sDao";
+    private String xmlPattern = "%sMapper";
     private String servicePattern = "%sService";
     private String serviceImplPattern = "%sServiceImpl";
     private String controllerPattern = "%sController";
 
     private String entityTemplatePath;
     private String daoTemplatePath;
+    private String xmlTemplatePath;
     private String serviceTemplatePath;
     private String serviceImplTemplatePath;
     private String controllerTemplatePath;

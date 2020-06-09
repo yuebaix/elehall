@@ -32,7 +32,7 @@ public class TemplateEngineStepBuilder {
         }
     }
     
-    private static final class OrmTemplateBuilder implements InitStep, MkdirsStep, BatchOutputStep, OpenStep {
+    private static final class OrmTemplateBuilder implements InitStep, MkdirsStep, BatchOutputStep,BatchOrOpenStep, OpenStep {
         private AbstractTemplateEngine engine;
         private OrmConfig ormConfig;
 
@@ -72,6 +72,29 @@ public class TemplateEngineStepBuilder {
         }
 
         @Override
+        public BatchOrOpenStep genBase() {
+            Map<String, Object> basicParams = getBasicParams();
+            List<OutputCfg> outputCfgList = ormConfig.getOutputCfgList();
+            Map<String, Object> params = new HashMap();
+            params.putAll(basicParams);
+            for (OutputCfg outputCfg : outputCfgList) {
+                String templateStr = outputCfg.getTemplatePath();
+                String templateFileName = templateStr;
+                if (templateStr.contains(CodegenConstant.SLASH)) {
+                    templateFileName = templateStr.substring(templateStr.lastIndexOf(CodegenConstant.SLASH), templateStr.length());
+                }
+                String templatePath = engine.templateFilePath(outputCfg.getTemplatePath());
+                String outputFile = outputCfg.getOutputPath() + File.separator + String.format(outputCfg.getOutputNamePattern(), templateFileName) + ".java";
+                if (!fileExist(outputFile) || ormConfig.getOptCfg().isOverride()) {
+                    engine.writer(params, templatePath, outputFile);
+                } else {
+                    log.debug("文件" + outputFile + "已存在并且设置为不可覆盖，不生成该文件");
+                }
+            }
+            return this;
+        }
+
+        @Override
         public OpenStep batchOutput() {
             Map<String, Object> basicParams = getBasicParams();
             List<TableInfo> tableInfoList = ormConfig.getTableInfoList();
@@ -86,14 +109,21 @@ public class TemplateEngineStepBuilder {
                 params.put("serviceName", String.format(ormConfig.getOptCfg().getServicePattern(), tableNameCamelCase));
                 params.put("serviceImplName", String.format(ormConfig.getOptCfg().getServiceImplPattern(), tableNameCamelCase));
                 params.put("controllerName", String.format(ormConfig.getOptCfg().getControllerPattern(), tableNameCamelCase));
-                //entity
+
+                params.put("entitySubPkg", ormConfig.getOptCfg().getEntitySubPkg());
+                params.put("daoSubPkg", ormConfig.getOptCfg().getDaoSubPkg());
+                params.put("serviceSubPkg", ormConfig.getOptCfg().getServiceSubPkg());
+                params.put("serviceImplSubPkg", ormConfig.getOptCfg().getServiceImplSubPkg());
+                params.put("controllerSubPkg", ormConfig.getOptCfg().getControllerSubPkg());
+
+                //entity.ftl
                 params.put("importPackages", getImportPackages(tableInfo));
                 //dao
                 params.put("pkTypeClass", getPkTypeClass(tableInfo));
 
                 for (OutputCfg outputCfg : outputCfgList) {
                     String templatePath = engine.templateFilePath(outputCfg.getTemplatePath());
-                    String outputFile = outputCfg.getOutputPath() + File.separator + String.format(outputCfg.getOutputNamePattern(), tableNameCamelCase) + ".java";
+                    String outputFile = outputCfg.getOutputPath() + File.separator + String.format(outputCfg.getOutputNamePattern(), tableNameCamelCase) + CodegenConstant.DOT + outputCfg.getFileExtension();
                     if (!fileExist(outputFile) || ormConfig.getOptCfg().isOverride()) {
                         engine.writer(params, templatePath, outputFile);
                     } else {
@@ -174,10 +204,15 @@ public class TemplateEngineStepBuilder {
     }
 
     public interface BatchOutputStep {
+        BatchOrOpenStep genBase();
         OpenStep batchOutput();
     }
 
     public interface OpenStep {
         void open();
+    }
+
+    public interface BatchOrOpenStep extends BatchOutputStep, OpenStep {
+
     }
 }

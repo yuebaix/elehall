@@ -1,10 +1,9 @@
 ${header}
 
-package ${package}.dao;
+package ${package}.${daoSubPkg};
 
-import ${baseCodePackage}.BaseDao;
-import ${package}.entity.${entityName};
-import org.springframework.stereotype.Repository;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import ${package}.${entitySubPkg}.${entityName};
 
 /**
 * <p>Description : ${table.comment}</p>
@@ -12,6 +11,5 @@ import org.springframework.stereotype.Repository;
 *
 * @author ${author}
 */
-@Repository("${package}.dao.${daoName}")
-public interface ${daoName} extends BaseDao<${entityName}, ${pkTypeClass}> {
+public interface ${daoName} extends BaseMapper<${entityName}> {
 }
