@@ -13,7 +13,9 @@ import io.swagger.annotations.ApiModelProperty;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+<#if table.extendBase == false>
 import java.io.Serializable;
+</#if>
 <#if importPackages??>
 <#list importPackages as pkg>
 import ${pkg};
