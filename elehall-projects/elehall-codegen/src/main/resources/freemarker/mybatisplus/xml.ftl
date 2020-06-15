@@ -4,14 +4,14 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="${package}.${entitySubPkg}.${entityName}">
-        <#list table.columnInfoList as column><#--生成普通字段-->
-            <result column="${column.name}" property="${column.nameCamelCase}" />
-        </#list>
-        <#if table.extendBase>
-            <#list table.baseColumnList as column><#--生成公共字段-->
-                <result column="${column.name}" property="${column.nameCamelCase}" />
-            </#list>
-        </#if>
+    <#list table.columnInfoList as column><#--生成普通字段-->
+        <result column="${column.name}" property="${column.nameCamelCase}" />
+    </#list>
+    <#if table.extendBase>
+    <#list table.baseColumnList as column><#--生成公共字段-->
+        <result column="${column.name}" property="${column.nameCamelCase}" />
+    </#list>
+    </#if>
     </resultMap>
 
     <!-- 通用查询结果列 -->
