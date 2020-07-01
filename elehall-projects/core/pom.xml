@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.geercode.elehall</groupId>
         <artifactId>elehall-parent</artifactId>
-        <version>0.0.3</version>
+        <version>0.0.4-SNAPSHOT</version>
         <relativePath>../elehall-parent</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
